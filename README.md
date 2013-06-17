@@ -1,5 +1,7 @@
 # uas-parser
 
+[![Build Status](https://travis-ci.org/GUI/uas-parser.png)](https://travis-ci.org/GUI/uas-parser)
+
 A user agent string parser for Node.js. Returns detailed user agent information from the [user-agent-string.info](http://user-agent-string.info) project.
 
 The internal data used for parsing is automatically updated on weekly basis from [user-agent-string.info's](http://user-agent-string.info) latest downloads.
