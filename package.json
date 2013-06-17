@@ -1,7 +1,13 @@
 {
   "name": "uas-parser",
   "version": "0.1.0",
-  "description": "User Agent String Parser",
+  "description": "User agent string parser (using data from user-agent-string.info)",
+  "keywords": [
+    "ua",
+    "useragent",
+    "user-agent",
+    "user agent"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "grunt"
