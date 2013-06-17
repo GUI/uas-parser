@@ -1,0 +1,30 @@
+{
+  "name": "uas-parser",
+  "version": "0.1.0",
+  "description": "User Agent String Parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "dependencies": {
+    "async": "~0.2.9",
+    "lingo": "~0.0.5",
+    "lru-cache": "~2.3.0",
+    "request": "~2.21.0",
+    "underscore": "~1.4.4",
+    "xregexp": "~2.0.0"
+  },
+  "devDependencies": {
+    "chai": "~1.6.1",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.9",
+    "grunt-contrib-jshint": "~0.4.1",
+    "grunt-mocha-test": "~0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GUI/uas-parser.git"
+  },
+  "author": "Nick Muerdter <stuff@nickm.org>",
+  "license": "MIT"
+}
