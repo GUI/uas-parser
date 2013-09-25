@@ -8,10 +8,13 @@ var async = require('async'),
 
 describe('updater', function() {
   it('only performs 1 check even if multiple updaters are created simultaneously', function(done) {
+    this.timeout(15000);
+
     var checkVersionSpy = sinon.spy(Updater.prototype, 'handleFileStat');
 
     async.times(5, function(id, callback) {
-      new Updater(10000, function() {
+      var updateInterval = 1 * 24 * 60 * 60 * 1000; // 1 day
+      new Updater(updateInterval, function() {
         callback(null);
       });
     }, function() {
