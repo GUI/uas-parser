@@ -1,6 +1,6 @@
 {
   "name": "uas-parser",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "User agent string parser (using data from user-agent-string.info)",
   "keywords": [
     "ua",
@@ -15,18 +15,18 @@
   "dependencies": {
     "async": "~0.2.9",
     "lingo": "~0.0.5",
-    "lru-cache": "~2.3.0",
-    "lockfile": "~0.4.0",
-    "request": "~2.25.0",
-    "underscore": "~1.5.1",
+    "lru-cache": "~2.3.1",
+    "lockfile": "~0.4.2",
+    "lodash": "~2.2.1",
+    "request": "~2.27.0",
     "xregexp": "~2.0.0"
   },
   "devDependencies": {
-    "chai": "~1.7.2",
+    "chai": "~1.8.1",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1.9",
-    "grunt-contrib-jshint": "~0.6.2",
-    "grunt-mocha-test": "~0.6.2",
+    "grunt-contrib-jshint": "~0.7.0",
+    "grunt-mocha-test": "~0.7.0",
     "sinon": "~1.7.3"
   },
   "repository": {

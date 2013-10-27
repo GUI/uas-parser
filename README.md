@@ -31,13 +31,16 @@ uaParser.parse('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.2
 //   osUrl: 'http://www.apple.com/osx/',
 //   osCompany: 'Apple Computer, Inc.',
 //   osCompanyUrl: 'http://www.apple.com/',
-//   osIcon: 'http://user-agent-string.info/pub/img/os/macosx.png' }
+//   osIcon: 'http://user-agent-string.info/pub/img/os/macosx.png',
+//   deviceType: 'Personal computer',
+//   deviceIcon: 'http://user-agent-string.info/pub/img/device/desktop.png',
+//   deviceInfoUrl: 'http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer' }
 
 uaParser.parse('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)');
 // { type: 'Robot',
 //   uaFamily: 'bingbot',
 //   uaName: 'bingbot/2.0',
-//   uaUrl: 'http://www.bing.com/bingbot.htm',
+//   uaUrl: 'http://www.bing.com/webmaster/help/which-crawlers-does-bing-use-8c184ec0',
 //   uaCompany: 'Microsoft Corporation',
 //   uaCompanyUrl: 'http://www.microsoft.com/',
 //   uaIcon: 'http://user-agent-string.info/pub/img/ua/bot_msnbot.png',
@@ -47,12 +50,15 @@ uaParser.parse('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingb
 //   osUrl: 'unknown',
 //   osCompany: 'unknown',
 //   osCompanyUrl: 'unknown',
-//   osIcon: 'http://user-agent-string.info/pub/img/os/unknown.png' }
+//   osIcon: 'http://user-agent-string.info/pub/img/os/unknown.png',
+//   deviceType: 'Other',
+//   deviceIcon: 'http://user-agent-string.info/pub/img/device/other.png',
+//   deviceInfoUrl: 'http://user-agent-string.info/list-of-ua/device-detail?device=Other' }
 
 uaParser.parse('EventMachine HttpClient');
 // { type: 'Library',
 //   uaFamily: 'EventMachine',
-//   uaName: 'EventMachine undefined',
+//   uaName: 'EventMachine',
 //   uaUrl: 'http://rubyeventmachine.com/',
 //   uaCompany: '',
 //   uaCompanyUrl: '',
@@ -63,7 +69,10 @@ uaParser.parse('EventMachine HttpClient');
 //   osUrl: 'unknown',
 //   osCompany: 'unknown',
 //   osCompanyUrl: 'unknown',
-//   osIcon: 'http://user-agent-string.info/pub/img/os/unknown.png' }
+//   osIcon: 'http://user-agent-string.info/pub/img/os/unknown.png',
+//   deviceType: 'Other',
+//   deviceIcon: 'http://user-agent-string.info/pub/img/device/other.png',
+//   deviceInfoUrl: 'http://user-agent-string.info/list-of-ua/device-detail?device=Other' }
 ```
 
 ### lookup(userAgent)

@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('underscore'),
+var _ = require('lodash'),
     cache = require('./data/cache'),
     LRU = require('lru-cache'),
     Updater = require('./lib/updater');
@@ -18,6 +18,14 @@ function finalizeResult(result) {
 
   if(result.osIcon !== 'unknown') {
     result.osIcon = 'http://user-agent-string.info/pub/img/os/' + result.osIcon;
+  }
+
+  if(result.deviceIcon !== 'unknown') {
+    result.deviceIcon = 'http://user-agent-string.info/pub/img/device/' + result.deviceIcon;
+  }
+
+  if(result.deviceInfoUrl !== 'unknown') {
+    result.deviceInfoUrl = 'http://user-agent-string.info' + result.deviceInfoUrl;
   }
 
   return result;
@@ -39,6 +47,9 @@ exports.parse = function(userAgent) {
     osCompany: 'unknown',
     osCompanyUrl: 'unknown',
     osIcon: 'unknown.png',
+    deviceType: 'unknown',
+    deviceIcon: 'unknown.png',
+    deviceInfoUrl: 'unknown',
   };
 
   for(var i = 0; i < cache.robots.order.length; i++) {
@@ -48,12 +59,13 @@ exports.parse = function(userAgent) {
     if(robot.userAgent === userAgent) {
       result.type = 'Robot';
       result = _.extend(result, robot.metadata);
+      _.extend(result, cache.device['1']);
+
       return finalizeResult(result);
     }
   }
 
-  var os;
-
+  var osId;
   for(i = 0; i < cache.browserReg.order.length; i++) {
     var browserRegId = cache.browserReg.order[i];
     var browserReg = cache.browserReg[browserRegId];
@@ -75,32 +87,58 @@ exports.parse = function(userAgent) {
         }
       }
 
-      var osId = cache.browserOs[browserReg.browserId];
-      if(osId) {
-        os = cache.os[osId];
-        if(os) {
-          result = _.extend(result, os);
-        }
-
-        return finalizeResult(result);
-      }
+      osId = cache.browserOs[browserReg.browserId];
 
       break;
     }
   }
 
-  for(i = 0; i < cache.osReg.order.length; i++) {
-    var osRegId = cache.osReg.order[i];
-    var osReg = cache.osReg[osRegId];
+  if(!osId) {
+    for(i = 0; i < cache.osReg.order.length; i++) {
+      var osRegId = cache.osReg.order[i];
+      var osReg = cache.osReg[osRegId];
 
-    if(osReg.regexp.test(userAgent)) {
-      os = cache.os[osReg.osId];
-      if(os) {
-        result = _.extend(result, os);
+      if(osReg.regexp.test(userAgent)) {
+        osId = osReg.osId;
+        break;
       }
-
-      break;
     }
+  }
+
+  if(osId) {
+    var os = cache.os[osId];
+    if(os) {
+      result = _.extend(result, os);
+    }
+  }
+
+  var device;
+  if(result.type === 'Robot') {
+    device = cache.device['1'];
+  } else {
+    for(i = 0; i < cache.deviceReg.order.length; i++) {
+      var deviceRegId = cache.deviceReg.order[i];
+      var deviceReg = cache.deviceReg[deviceRegId];
+
+      if(deviceReg.regexp.test(userAgent)) {
+        device = cache.device[deviceReg.deviceId];
+        break;
+      }
+    }
+  }
+
+  if(!device) {
+    if(['Other', 'Library', 'Validator', 'Useragent Anonymizer'].indexOf(result.type) !==  -1) {
+      device = cache.device['1'];
+    } else if(['Mobile Browser', 'Wap Browser'].indexOf(result.type) !==  -1) {
+      device = cache.device['3'];
+    } else {
+      device = cache.device['2'];
+    }
+  }
+
+  if(device) {
+    result = _.extend(result, device);
   }
 
   return finalizeResult(result);
