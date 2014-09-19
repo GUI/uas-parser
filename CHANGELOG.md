@@ -1,3 +1,7 @@
+## 0.2.1 / 2014-09-19
+
+* [ENHANCEMENT] Upgrade "request" dependency to 2.44.0 (see [#3](https://github.com/GUI/uas-parser/pull/3)).
+
 ## 0.2.0 / 2013-10-27
 
 * [FEATURE] Return new devices information from user-agent-string.info. This

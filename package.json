@@ -1,6 +1,6 @@
 {
   "name": "uas-parser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "User agent string parser (using data from user-agent-string.info)",
   "keywords": [
     "ua",
