@@ -172,4 +172,5 @@ function updateData(callback) {
 }
 
 updateData();
-setInterval(updateData, updateInterval);
+var interval = setInterval(updateData, updateInterval);
+interval.unref();
