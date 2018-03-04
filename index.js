@@ -52,6 +52,13 @@ exports.parse = function(userAgent) {
     deviceInfoUrl: 'unknown',
   };
 
+  /* Many patterns are vulnerable to REDOS. */
+  var MAX_REASONABLE_LENGTH = 1000;
+  if (MAX_REASONABLE_LENGTH < userAgent.length) {
+    return finalizeResult(result);
+  }
+
+
   for(var i = 0; i < cache.robots.order.length; i++) {
     var robotId = cache.robots.order[i];
     var robot = cache.robots[robotId];
