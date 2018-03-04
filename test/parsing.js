@@ -143,6 +143,29 @@ describe('parse', function() {
     ua.deviceInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer');
   });
 
+  it('does not parse overly-long user agents (> 1000 chars) that could cause regex DoS', function() {
+    var ua = uasParser.parse('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
+    Object.keys(ua).length.should.eql(17);
+    ua.type.should.eql('unknown');
+    ua.uaFamily.should.eql('unknown');
+    ua.uaName.should.eql('unknown');
+    ua.uaUrl.should.eql('unknown');
+    ua.uaCompany.should.eql('unknown');
+    ua.uaCompanyUrl.should.eql('unknown');
+    ua.uaIcon.should.eql('http://user-agent-string.info/pub/img/ua/unknown.png');
+    ua.uaInfoUrl.should.eql('unknown');
+    ua.osFamily.should.eql('unknown');
+    ua.osName.should.eql('unknown');
+    ua.osUrl.should.eql('unknown');
+    ua.osCompany.should.eql('unknown');
+    ua.osCompanyUrl.should.eql('unknown');
+    ua.osIcon.should.eql('http://user-agent-string.info/pub/img/os/unknown.png');
+    ua.deviceType.should.eql('unknown');
+    ua.deviceIcon.should.eql('http://user-agent-string.info/pub/img/device/unknown.png');
+    ua.deviceInfoUrl.should.eql('unknown');
+  });
+
   describe('device type', function() {
     it('uses other for robots', function() {
       var ua = uasParser.parse('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
