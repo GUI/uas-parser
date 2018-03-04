@@ -143,8 +143,54 @@ describe('parse', function() {
     ua.deviceInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer');
   });
 
-  it('does not parse overly-long user agents (> 1000 chars) that could cause regex DoS', function() {
-    var ua = uasParser.parse('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  it('parses long user agents', function() {
+    var ua = uasParser.parse('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; YPC 3.2.0; SearchSystem6829992239; SearchSystem9616306563; SearchSystem6017393645; SearchSystem5219240075; SearchSystem2768350104; SearchSystem6919669052; SearchSystem1986739074; SearchSystem1555480186; SearchSystem3376893470; SearchSystem9530642569; SearchSystem4877790286; SearchSystem8104932799; SearchSystem2313134663; SearchSystem1545325372; SearchSystem7742471461; SearchSystem9092363703; SearchSystem6992236221; SearchSystem3507700306; SearchSystem1129983453; SearchSystem1077927937; SearchSystem2297142691; SearchSystem7813572891; SearchSystem5668754497; SearchSystem6220295595; SearchSystem4157940963; SearchSystem7656671655; SearchSystem2865656762; SearchSystem6520604676; SearchSystem4960161466; .NET CLR 1.1.4322; .NET CLR 2.0.50727; Hotbar 10.2.232.0; SearchSystem9616306563; SearchSystem6017393645; SearchSystem5219240075; SearchSystem2768350104; SearchSystem6919669052; SearchSystem1986739074; SearchSystem1555480186; SearchSystem3376893470; SearchSystem9530642569; SearchSystem4877790286; SearchSystem8104932799; SearchSystem2313134663; SearchSystem1545325372; SearchSystem7742471461; SearchSystem9092363703; SearchSystem6992236221; SearchSystem3507700306; SearchSystem1129983453; SearchSystem1077927937; SearchSystem2297142691; SearchSystem7813572891; SearchSystem5668754497; SearchSystem6220295595; SearchSystem4157940963; SearchSystem7656671655; SearchSystem2865656762; SearchSystem6520604676; SearchSystem4960161466; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)');
+
+    Object.keys(ua).length.should.eql(17);
+    ua.type.should.eql('Browser');
+    ua.uaFamily.should.eql('IE');
+    ua.uaName.should.eql('IE 8.0');
+    ua.uaUrl.should.eql('http://en.wikipedia.org/wiki/Internet_Explorer');
+    ua.uaCompany.should.eql('Microsoft Corporation.');
+    ua.uaCompanyUrl.should.eql('http://www.microsoft.com/');
+    ua.uaIcon.should.eql('http://user-agent-string.info/pub/img/ua/msie.png');
+    ua.uaInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/browser-detail?browser=IE');
+    ua.osFamily.should.eql('Windows');
+    ua.osName.should.eql('Windows XP');
+    ua.osUrl.should.eql('http://en.wikipedia.org/wiki/Windows_XP');
+    ua.osCompany.should.eql('Microsoft Corporation.');
+    ua.osCompanyUrl.should.eql('http://www.microsoft.com/');
+    ua.osIcon.should.eql('http://user-agent-string.info/pub/img/os/windowsxp.png');
+    ua.deviceType.should.eql('Personal computer');
+    ua.deviceIcon.should.eql('http://user-agent-string.info/pub/img/device/desktop.png');
+    ua.deviceInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer');
+  });
+
+  it('parses first 1000 characters of user agent', function() {
+    var ua = uasParser.parse('IBrowse'.padStart(1000, ' '));
+
+    Object.keys(ua).length.should.eql(17);
+    ua.type.should.eql('Browser');
+    ua.uaFamily.should.eql('IBrowse');
+    ua.uaName.should.eql('IBrowse');
+    ua.uaUrl.should.eql('http://www.ibrowse-dev.net/');
+    ua.uaCompany.should.eql('Stefan Burström');
+    ua.uaCompanyUrl.should.eql('');
+    ua.uaIcon.should.eql('http://user-agent-string.info/pub/img/ua/ibrowse.png');
+    ua.uaInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/browser-detail?browser=IBrowse');
+    ua.osFamily.should.eql('unknown');
+    ua.osName.should.eql('unknown');
+    ua.osUrl.should.eql('unknown');
+    ua.osCompany.should.eql('unknown');
+    ua.osCompanyUrl.should.eql('unknown');
+    ua.osIcon.should.eql('http://user-agent-string.info/pub/img/os/unknown.png');
+    ua.deviceType.should.eql('Personal computer');
+    ua.deviceIcon.should.eql('http://user-agent-string.info/pub/img/device/desktop.png');
+    ua.deviceInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer');
+  });
+
+  it('ignores everything past the 1000 character of user agent', function() {
+    var ua = uasParser.parse('IBrowse'.padStart(1007, ' '));
 
     Object.keys(ua).length.should.eql(17);
     ua.type.should.eql('unknown');
@@ -161,9 +207,9 @@ describe('parse', function() {
     ua.osCompany.should.eql('unknown');
     ua.osCompanyUrl.should.eql('unknown');
     ua.osIcon.should.eql('http://user-agent-string.info/pub/img/os/unknown.png');
-    ua.deviceType.should.eql('unknown');
-    ua.deviceIcon.should.eql('http://user-agent-string.info/pub/img/device/unknown.png');
-    ua.deviceInfoUrl.should.eql('unknown');
+    ua.deviceType.should.eql('Personal computer');
+    ua.deviceIcon.should.eql('http://user-agent-string.info/pub/img/device/desktop.png');
+    ua.deviceInfoUrl.should.eql('http://user-agent-string.info/list-of-ua/device-detail?device=Personal computer');
   });
 
   describe('device type', function() {

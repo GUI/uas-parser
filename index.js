@@ -53,9 +53,10 @@ exports.parse = function(userAgent) {
     deviceInfoUrl: 'unknown',
   };
 
-  /* Many patterns are vulnerable to REDOS. */
-  if (MAX_REASONABLE_LENGTH < userAgent.length) {
-    return finalizeResult(result);
+  // Limit the parsed user agent to the first 1000 characters to prevent regex
+  // denial of service attacks.
+  if(userAgent.length > MAX_REASONABLE_LENGTH) {
+    userAgent = userAgent.substr(0, 1000);
   }
 
   for(var i = 0; i < cache.robots.order.length; i++) {
