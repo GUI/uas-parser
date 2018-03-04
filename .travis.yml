@@ -1,14 +1,6 @@
 language: node_js
 node_js:
-  - "0.11"
+  - "8"
+  - "6"
+  - "4"
   - "0.10"
-  - "0.8"
-matrix:
-  allow_failures:
-    - node_js: "0.11"
-before_install:
-  # Attempt to fix running tests on node 0.8 by upgrading npm. Basically, grunt
-  # depends on glob, which currently has a dependency on graceful-fs using the
-  # '^' version syntax. This isn't supported by the version of npm bundled with
-  # node 0.8. See: https://github.com/joyent/node/pull/7797
-  - "if [[ `npm --version` == 1.2.* ]]; then npm install -g npm@'~1.4.8'; fi"
