@@ -167,7 +167,7 @@ describe('parse', function() {
   });
 
   it('parses first 1000 characters of user agent', function() {
-    var ua = uasParser.parse('IBrowse'.padStart(1000, ' '));
+    var ua = uasParser.parse('                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 IBrowse');
 
     Object.keys(ua).length.should.eql(17);
     ua.type.should.eql('Browser');
@@ -190,7 +190,7 @@ describe('parse', function() {
   });
 
   it('ignores everything past the 1000 character of user agent', function() {
-    var ua = uasParser.parse('IBrowse'.padStart(1007, ' '));
+    var ua = uasParser.parse('                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        IBrowse');
 
     Object.keys(ua).length.should.eql(17);
     ua.type.should.eql('unknown');
